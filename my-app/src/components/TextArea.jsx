@@ -37,6 +37,10 @@ const handleOnChange = (event)=>{
       <button className="btn btn-primary mx-4" onClick={event =>handleLowerCase(event)}>Convert to LowerCase</button>
       <button className="btn btn-danger" onClick={event =>handleReset(event)}>Reset</button>
       <button className="btn btn-secondary mx-4" onClick={event =>handleDummyText(event)}>Create Dummy Text</button>
+    <div className="container">
+      <h1>Your text Summary</h1>
+      <p>{text.split(' ').length} and {text.length} Characters</p>
+    </div>
     </>
   );
 };
