@@ -11,8 +11,8 @@ function App() {
       {/* <h1>{name}</h1> {/*we can use javascript in jsx as curly bracket*/}
       {/* <div className="hi">Hi</div> */}
       <div className="container">
-        {/* <TextArea heading='TextArea'/> */}
-        <Accordian />
+        <TextArea heading='TextArea'/>
+        {/* <Accordian /> */}
 
       </div>
     </>
