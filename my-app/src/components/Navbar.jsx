@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 
 import PropTypes from "prop-types";
 
 const Navbar = (props) => {
+  const [click, setclick] = useState(0);
+
+  const EnableDarkMode = () => {
+    console.log(click);
+    document.body.classList.toggle("bg-dark");
+    document.body.classList.toggle("text-white");
+    Array.from(document.getElementsByClassName("form-control")).forEach(
+      (element) => {
+        element.classList.toggle("text-white");
+        element.classList.toggle("bg-dark");
+      }
+    );
+    if (click % 2 !== 0) {
+      document.getElementsByClassName("navbar")[0].dataset.bsTheme = "";
+    } else {
+      document.getElementsByClassName("navbar")[0].dataset.bsTheme = "dark";
+    }
+    setclick(click + 1);
+  };
   return (
-    <nav data-bs-theme="White" className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav
+      data-bs-theme="White"
+      className="navbar navbar-expand-lg bg-body-tertiary"
+    >
       <div className="container-fluid">
         <a className="navbar-brand" href="/">
           {props.title}
@@ -78,6 +100,20 @@ const Navbar = (props) => {
               </a>
             </li>
           </ul>
+          <input
+            type="checkbox"
+            class="btn-check "
+            id="btn-check-outlined"
+            autocomplete="off"
+          />
+          <label
+            class="btn btn-outline-primary btn-outline-dark mx-4"
+            htmlFor="btn-check-outlined"
+            onClick={EnableDarkMode}
+          >
+            Dark Mode
+          </label>
+          <br></br>
 
           <form className="d-flex" role="search">
             <input

@@ -12,7 +12,9 @@ const TextArea = (props) => {
     settext(``);
   };
   const handleDummyText = (event) => {
-    settext(`${text} Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque necessitatibus id quo mollitia temporibus quasi optio! Saepe magni minima ad dolorum molestiae voluptatem omnis placeat soluta labore possimus sunt, rerum consequuntur animi nostrum veniam!`);
+    settext(
+      `${text} Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque necessitatibus id quo mollitia temporibus quasi optio! Saepe magni minima ad dolorum molestiae voluptatem omnis placeat soluta labore possimus sunt, rerum consequuntur animi nostrum veniam!`
+    );
   };
   const handleOnChange = (event) => {
     settext(event.target.value);
@@ -21,7 +23,7 @@ const TextArea = (props) => {
   const handleOnAlternateCase = (event) => {
     settext(
       text
-      .split(" ")
+        .split(" ")
         .map((string) => {
           let temp = [];
           for (let i = 0; i < string.length; i++) {
@@ -31,28 +33,29 @@ const TextArea = (props) => {
               temp.push(string[i].toUpperCase());
             }
           }
-          
+
           string = temp.join("");
           return string;
         })
         .join(" ")
-        );
-      };
-      const handleOnCapitalizedCase = (event) => {
-        settext(
-          text
-          .split(" ")
-          .map((string) => {
-            return `${string[0].toUpperCase()}${string.slice(1)}`
-          })
-          .join(" ")
-          );
-        };
-        const handleCopy = (event) => {
-          
-          document.getElementById('exampleFormControlTextarea1').select()
-          navigator.clipboard.writeText (text);
-        };
+    );
+  };
+  const handleOnCapitalizedCase = (event) => {
+    settext(
+      text.trim()
+        .split(" ")
+        .map((string) => {
+          if (string !== undefined || string!==' ') {
+            return `${string[0].toUpperCase()}${string.slice(1)}`;
+          }
+        })
+        .join(" ")
+    );
+  };
+  const handleCopy = (event) => {
+    document.getElementById("exampleFormControlTextarea1").select();
+    navigator.clipboard.writeText(text);
+  };
 
   return (
     <>
@@ -61,7 +64,7 @@ const TextArea = (props) => {
           <h4>{props.heading}</h4>
         </label>
         <textarea
-          className="form-control "
+          className="form-control"
           id="exampleFormControlTextarea1"
           rows="8"
           onChange={(event) => handleOnChange(event)}
@@ -92,10 +95,7 @@ const TextArea = (props) => {
       >
         Create Dummy Text
       </button>
-      <button
-        className="btn btn-secondary"
-        onClick={handleOnAlternateCase}
-      >
+      <button className="btn btn-secondary" onClick={handleOnAlternateCase}>
         Convert to aLtErNaTeCaSe
       </button>
       <button
@@ -104,10 +104,7 @@ const TextArea = (props) => {
       >
         Convert to Capitalized Case
       </button>
-      <button
-        className="btn btn-secondary mx-4"
-        onClick={handleCopy}
-      >
+      <button className="btn btn-secondary " onClick={handleCopy}>
         Copy All
       </button>
       <div className="container">
