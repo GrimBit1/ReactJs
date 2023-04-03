@@ -4,57 +4,75 @@ const TextArea = (props) => {
   const [text, settext] = useState("");
   const handleUpperCase = (event) => {
     settext(text.toUpperCase());
+    props.showAlert("The text is uppercased", "success");
   };
   const handleLowerCase = (event) => {
     settext(text.toLowerCase());
+    props.showAlert("The text is lowercased", "success");
   };
   const handleReset = (event) => {
     settext(``);
+    props.showAlert("The text is reseted", "success");
   };
   const handleDummyText = (event) => {
     settext(
       `${text} Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque necessitatibus id quo mollitia temporibus quasi optio! Saepe magni minima ad dolorum molestiae voluptatem omnis placeat soluta labore possimus sunt, rerum consequuntur animi nostrum veniam!`
     );
+    props.showAlert("The Dummy text is created", "success");
   };
   const handleOnChange = (event) => {
     settext(event.target.value);
     // console.log(event.target.value);
   };
   const handleOnAlternateCase = (event) => {
-    settext(
-      text
-        .split(" ")
-        .map((string) => {
-          let temp = [];
-          for (let i = 0; i < string.length; i++) {
-            if (i % 2 === 0) {
-              temp.push(string[i].toLowerCase());
-            } else {
-              temp.push(string[i].toUpperCase());
+    try {
+      settext(
+        text
+          .split(" ")
+          .map((string) => {
+            let temp = [];
+            for (let i = 0; i < string.length; i++) {
+              if (i % 2 === 0) {
+                temp.push(string[i].toLowerCase());
+              } else {
+                temp.push(string[i].toUpperCase());
+              }
             }
-          }
 
-          string = temp.join("");
-          return string;
-        })
-        .join(" ")
-    );
+            string = temp.join("");
+            return string;
+          })
+          .join(" ")
+      );
+      props.showAlert("The text is alternate case", "success");
+    } catch (err) {
+      props.showAlert("Error", "danger");
+      console.log(err);
+    }
   };
   const handleOnCapitalizedCase = (event) => {
-    settext(
-      text.trim()
-        .split(" ")
-        .map((string) => {
-          if (string !== undefined || string!==' ') {
-            return `${string[0].toUpperCase()}${string.slice(1)}`;
-          }
-        })
-        .join(" ")
-    );
+    try {
+      settext(
+        text
+          .trim()
+          .split(" ")
+          .map((string) => {
+            if (string !== undefined || string !== " ") {
+              return `${string[0].toUpperCase()}${string.slice(1)}`;
+            }
+          })
+          .join(" ")
+      );
+      props.showAlert("The text is captilized", "success");
+    } catch (err) {
+      props.showAlert("Error", "danger");
+      console.log(err);
+    }
   };
   const handleCopy = (event) => {
     document.getElementById("exampleFormControlTextarea1").select();
     navigator.clipboard.writeText(text);
+    props.showAlert("The text is copied", "success");
   };
 
   return (

@@ -21,6 +21,7 @@ const Navbar = (props) => {
       document.getElementsByClassName("navbar")[0].dataset.bsTheme = "dark";
     }
     setclick(click + 1);
+    props.showAlert("Dark mode is enabled", "success");
   };
   return (
     <nav
@@ -102,12 +103,12 @@ const Navbar = (props) => {
           </ul>
           <input
             type="checkbox"
-            class="btn-check "
+            className="btn-check "
             id="btn-check-outlined"
-            autocomplete="off"
+            autoComplete="off"
           />
           <label
-            class="btn btn-outline-primary btn-outline-dark mx-4"
+            className="btn btn-outline-primary btn-outline-dark mx-4"
             htmlFor="btn-check-outlined"
             onClick={EnableDarkMode}
           >
