@@ -128,8 +128,11 @@ const TextArea = (props) => {
       <div className="container">
         <h1>Your text Summary</h1>
         <p>
-          {text.split(" ").length} and {text.length} Characters
+          {text !== "" ? text.trim().split(" ").length : 0} Words and {text.length}{" "}
+          Characters
         </p>
+        <h2>Preview</h2>
+        <p>{text !== "" ? text: "Enter Something to preview here"}</p>
       </div>
     </>
   );
