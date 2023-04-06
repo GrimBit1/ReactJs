@@ -123,7 +123,7 @@ const Accordian = () => {
         </div>
       </div>
       <button className="btn btn-dark my-3" onClick={EnableDarkMode}>
-        Enable Dark Mode Click:{click}
+        Enable Dark Mode
       </button>
     </>
   );
