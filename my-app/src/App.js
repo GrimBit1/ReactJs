@@ -24,17 +24,18 @@ function App() {
       <Navbar title="Aditya" showAlert={showAlert} />
       {/* <h1>{name}</h1> {/*we can use javascript in jsx as curly bracket*/}
       {/* <div className="hi">Hi</div> */}
-
-      {alert != null ? <Alert alert={alert} /> : ""}
-
+      <div style={{ height: "60px", width: "100%" }}>
+        {alert != null ? <Alert alert={alert} /> : ""}
+      </div>
       <div className="container">
         <Switch>
-          <Route exact path="/"> {/* If we dont write exact the react will check partialy */}
+          <Route exact path="/">
+            {" "}
+            {/* If we dont write exact the react will check partialy */}
             <TextArea heading="TextArea" showAlert={showAlert} />
           </Route>
           <Route exact path="/about">
             <Accordian />
-
           </Route>
         </Switch>
       </div>
