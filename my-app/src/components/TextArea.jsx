@@ -3,12 +3,16 @@ import React, { useState } from "react";
 const TextArea = (props) => {
   const [text, settext] = useState("");
   const handleUpperCase = (event) => {
-    settext(text.toUpperCase());
-    props.showAlert("The text is uppercased", "success");
+    if (text.trim() !== "") {
+      settext(text.toUpperCase());
+      props.showAlert("The text is uppercased", "success");
+    }
   };
   const handleLowerCase = (event) => {
-    settext(text.toLowerCase());
-    props.showAlert("The text is lowercased", "success");
+    if (text.trim() !== "") {
+      settext(text.toLowerCase());
+      props.showAlert("The text is lowercased", "success");
+    }
   };
   const handleReset = (event) => {
     settext(``);
@@ -25,54 +29,60 @@ const TextArea = (props) => {
     // console.log(event.target.value);
   };
   const handleOnAlternateCase = (event) => {
-    try {
-      settext(
-        text
-          .split(" ")
-          .map((string) => {
-            let temp = [];
-            for (let i = 0; i < string.length; i++) {
-              if (i % 2 === 0) {
-                temp.push(string[i].toLowerCase());
-              } else {
-                temp.push(string[i].toUpperCase());
+    if (text.trim() !== "") {
+      try {
+        settext(
+          text
+            .split(" ")
+            .map((string) => {
+              let temp = [];
+              for (let i = 0; i < string.length; i++) {
+                if (i % 2 === 0) {
+                  temp.push(string[i].toLowerCase());
+                } else {
+                  temp.push(string[i].toUpperCase());
+                }
               }
-            }
 
-            string = temp.join("");
-            return string;
-          })
-          .join(" ")
-      );
-      props.showAlert("The text is alternate case", "success");
-    } catch (err) {
-      props.showAlert("Error", "danger");
-      console.log(err);
+              string = temp.join("");
+              return string;
+            })
+            .join(" ")
+        );
+        props.showAlert("The text is alternate case", "success");
+      } catch (err) {
+        props.showAlert("Error", "danger");
+        console.log(err);
+      }
     }
   };
   const handleOnCapitalizedCase = (event) => {
-    try {
-      settext(
-        text
-          .trim()
-          .split(" ")
-          .map((string) => {
-            if (string !== undefined || string !== " ") {
-              return `${string[0].toUpperCase()}${string.slice(1)}`;
-            }
-          })
-          .join(" ")
-      );
-      props.showAlert("The text is captilized", "success");
-    } catch (err) {
-      props.showAlert("Error", "danger");
-      console.log(err);
+    if (text.trim() !== "") {
+      try {
+        settext(
+          text
+            .trim()
+            .split(" ")
+            .map((string) => {
+              if (string !== undefined || string !== " ") {
+                return `${string[0].toUpperCase()}${string.slice(1)}`;
+              }
+            })
+            .join(" ")
+        );
+        props.showAlert("The text is captilized", "success");
+      } catch (err) {
+        props.showAlert("Error", "danger");
+        console.log(err);
+      }
     }
   };
   const handleCopy = (event) => {
-    document.getElementById("exampleFormControlTextarea1").select();
-    navigator.clipboard.writeText(text);
-    props.showAlert("The text is copied", "success");
+    if (text.trim() !== "") {
+      document.getElementById("exampleFormControlTextarea1").select();
+      navigator.clipboard.writeText(text);
+      props.showAlert("The text is copied", "success");
+    }
   };
 
   return (
@@ -128,11 +138,11 @@ const TextArea = (props) => {
       <div className="container">
         <h1>Your text Summary</h1>
         <p>
-          {text !== "" ? text.trim().split(" ").length : 0} Words and {text.length}{" "}
-          Characters
+          {text.trim() !== "" ? text.trim().split(" ").length : 0} Words and{" "}
+          {text.length} Characters
         </p>
         <h2>Preview</h2>
-        <p>{text !== "" ? text: "Enter Something to preview here"}</p>
+        <p>{text.trim() !== "" ? text : "Enter Something to preview here"}</p>
       </div>
     </>
   );

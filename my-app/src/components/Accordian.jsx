@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+let EnableDarkMode2;
 const Accordian = () => {
   const [AccordianButton, setAccordianButton] = useState(
     document.getElementsByClassName("accordion-button")
@@ -10,7 +10,7 @@ const Accordian = () => {
   );
   const [click, setclick] = useState(0);
 
-  const EnableDarkMode = () => {
+  EnableDarkMode2 = () => {
     Array.from(AccordianButton).forEach((element) => {
       element.classList.toggle("text-bg-dark");
     });
@@ -122,11 +122,9 @@ const Accordian = () => {
           </div>
         </div>
       </div>
-      <button className="btn btn-dark my-3" onClick={EnableDarkMode}>
-        Enable Dark Mode
-      </button>
     </>
   );
 };
 
 export default Accordian;
+export { EnableDarkMode2 };
