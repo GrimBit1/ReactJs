@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {EnableDarkMode2} from "./Accordian";
+import { EnableDarkMode2 } from "./Accordian";
 
 import PropTypes from "prop-types";
 
@@ -24,7 +24,12 @@ const Navbar = (props) => {
     }
     setclick(click + 1);
     props.showAlert("Dark mode is enabled", "success");
+    if(EnableDarkMode2 === undefined){
+
+    }
+    else{
     EnableDarkMode2()
+    }
   };
   return (
     <nav
