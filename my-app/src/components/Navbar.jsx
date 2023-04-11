@@ -24,11 +24,9 @@ const Navbar = (props) => {
     }
     setclick(click + 1);
     props.showAlert("Dark mode is enabled", "success");
-    if(EnableDarkMode2 === undefined){
-
-    }
-    else{
-    EnableDarkMode2()
+    if (EnableDarkMode2 === undefined) {
+    } else {
+      EnableDarkMode2();
     }
   };
   return (
