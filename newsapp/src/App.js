@@ -3,17 +3,14 @@ import "./App.css";
 
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
+import News from "./components/News";
 
 export default class App extends Component {
-  c = "john";
   render() {
     return (
       <div>
         <Navbar />
-        <div className="sm:text-3xl text-2xl font-medium title-font text-center text-gray-900 mb-20">
-          News Monkey - Get your daily dose of news daily
-        </div>
-        <NewsComponent />
+        <News/>
       </div>
     );
   }
