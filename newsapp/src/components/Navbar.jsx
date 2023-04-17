@@ -25,16 +25,16 @@ export default class Navbar extends Component {
               <span className="ml-3 text-xl">News App</span>
             </a>
             <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-              <a href="/" className="mr-5 hover:text-gray-900">
+              <a href="/" className="mr-5 hover:text-white">
                 First Link
               </a>
-              <a href="/" className="mr-5 hover:text-gray-900">
+              <a href="/" className="mr-5 hover:text-white">
                 Second Link
               </a>
-              <a href="/" className="mr-5 hover:text-gray-900">
+              <a href="/" className="mr-5 hover:text-white">
                 Third Link
               </a>
-              <a href="/" className="mr-5 hover:text-gray-900">
+              <a href="/" className="mr-5 hover:text-white">
                 Fourth Link
               </a>
             </nav>

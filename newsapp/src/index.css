@@ -80,14 +80,20 @@
   * {
     color-scheme: dark;
   }
-  .text-gray-700 {
+  .text-gray-700,.text-gray-900 {
     color: rgb(223, 223, 223);
   }
   .newsblock {
     /* border: 1px solid white; */
     box-shadow: 0px 0px 3px white;
   }
+ 
 }
+
+*{
+  transition: all 150ms ease-in-out;
+}
+
 
 body {
   margin: 0;
