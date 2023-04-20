@@ -12,7 +12,7 @@ export class NewsComponent extends Component {
               {title}
             </div>
             <p className="text-gray-700 h-[38%] overflow-hidden text-justify text-ellipsis  text-base">
-              {description.length > 151
+              {Boolean(description) ?? description.length > 151
                 ? description.slice(0, 147) + "..."
                 : description + "..."}
             </p>
