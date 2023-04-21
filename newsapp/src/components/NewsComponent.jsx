@@ -4,7 +4,7 @@ export class NewsComponent extends Component {
   render() {
     let { title, description, img, url, name } = this.props;
     return (
-      <div className="newsblock rounded  mx-4">
+      <div className="newsblock max-w-xs rounded  mx-4">
         <div className="max-w-sm rounded overflow-hidden shadow-lg h-[495px]">
           <img className="h-[40%] w-full object-cover" src={img} alt={name} />
           <div className="px-6 h-[60%] flex flex-col justify-between py-4 ">
