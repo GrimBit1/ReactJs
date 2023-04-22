@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NewsComponent from "./NewsComponent";
 import Loading from "./Loading";
+import PropTypes from "prop-types";
 // import myarticles from "../data/sampledata.json";
 export default class News extends Component {
   constructor() {
@@ -12,6 +13,15 @@ export default class News extends Component {
       pageSize: 20,
     };
   }
+  
+  static defaultProps = {
+    country: "in",
+    pagesize: 20,
+  };
+  static propTypes = {
+    country: PropTypes.string.isRequired,
+    pageSize: PropTypes.number.isRequired
+  };
   getData = async (url) => {
     let data = await fetch(url).then((value) => value.json());
     return data;
