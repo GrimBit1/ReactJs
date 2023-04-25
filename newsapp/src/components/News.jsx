@@ -11,16 +11,16 @@ export default class News extends Component {
       loading: false,
       pageno: 1,
       pageSize: 20,
+      category: "",
     };
   }
-  
   static defaultProps = {
     country: "in",
     pagesize: 20,
   };
   static propTypes = {
     country: PropTypes.string.isRequired,
-    pageSize: PropTypes.number.isRequired
+    // pageSize: PropTypes.number.isRequired,
   };
   getData = async (url) => {
     let data = await fetch(url).then((value) => value.json());
@@ -28,23 +28,27 @@ export default class News extends Component {
   };
 
   async componentDidMount() {
+    // console.log(this._reactInternals.key);
+
     // component did mount runs after the render is done
     let getData = async (url) => {
       let data = await fetch(url).then((value) => value.json());
       return data;
     };
-    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${this.state.pageno}&pageSize=${this.state.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${this.state.pageno}&pageSize=${this.state.pageSize}&category=${this.props.category}`;
+    // console.log(url);
     let data = await getData(url);
     this.setState({
       articles: data.articles,
       totalResults: 100,
-      loading: true,
+      loading: false,
+      category: this.props.category,
     });
   }
   previousClick = async () => {
     let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${
       this.state.pageno - 1
-    }&pageSize=${this.state.pageSize}`;
+    }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
     this.setState({ loading: true });
     let data = await this.getData(url);
 
@@ -58,18 +62,18 @@ export default class News extends Component {
       .scrollIntoView({ behavior: "smooth" });
   };
   nextClick = async () => {
-    if (this.state.pageno + 1 > this.state.totalResults / 20) {
+    if (this.state.pageno + 1 > this.state.totalResults / this.state.pageSize) {
     } else {
       this.setState({ loading: true });
 
       let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${
         this.state.pageno + 1
-      }&pageSize=${this.state.pageSize}`;
+      }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
       let data = await this.getData(url);
       this.setState({
         pageno: this.state.pageno + 1,
         articles: data.articles,
-        loading: true,
+        loading: false,
       });
       document
         .getElementsByClassName("container")[1]
@@ -77,7 +81,7 @@ export default class News extends Component {
     }
   };
   async hanglePageSize(event) {
-    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${this.state.pageno}&pageSize=${event.target.value}`;
+    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${this.state.pageno}&pageSize=${event.target.value}&category=${this.props.category}`;
     let data = await this.getData(url);
     this.setState({
       pageSize: parseInt(event.target.value),
@@ -116,6 +120,8 @@ export default class News extends Component {
           </div>
           <div className="component grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center grid-cols-1 gap-5 py-5">
             {Boolean(this.state.loading) ? (
+              <Loading />
+            ) : (
               this.state.articles.map((item) => {
                 return (
                   <NewsComponent
@@ -131,8 +137,6 @@ export default class News extends Component {
                   />
                 );
               })
-            ) : (
-              <Loading />
             )}
           </div>
           <div className="pagination mx-4 flex justify-between">
@@ -148,7 +152,8 @@ export default class News extends Component {
             <button
               onClick={this.nextClick}
               className={`bg-transparent next ${
-                this.state.pageno + 1 > this.state.totalResults / 20
+                this.state.pageno + 1 >
+                this.state.totalResults / this.state.pageSize
                   ? "opacity-50 cursor-not-allowed"
                   : ""
               } hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded`}
