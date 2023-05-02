@@ -134,7 +134,7 @@ export default class News extends Component {
                         : "https://images.unsplash.com/photo-1476242906366-d8eb64c2f661?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80"
                     }
                     url={item.url}
-                    source = {item.source.name}
+                    source={item.source.name}
                   />
                 );
               })

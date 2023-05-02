@@ -5,7 +5,7 @@ export class NewsComponent extends Component {
     let { title, description, img, url, name, source } = this.props;
     return (
       <div className="newsblock max-w-xs rounded  mx-4 relative ">
-        <span class="bg-blue-100 absolute top-0 right-0 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+        <span className="bg-blue-100 absolute top-0 right-0 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
           {source}
         </span>
 
