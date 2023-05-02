@@ -12,6 +12,7 @@ export default class News extends Component {
       pageno: 1,
       pageSize: 20,
       category: "",
+      title:"News Monkey - Latest News"
     };
   }
   static defaultProps = {
@@ -22,6 +23,9 @@ export default class News extends Component {
     country: PropTypes.string.isRequired,
     // pageSize: PropTypes.number.isRequired,
   };
+  capitalizer(string){
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
   getData = async (url) => {
     let data = await fetch(url).then((value) => value.json());
     return data;
@@ -44,6 +48,8 @@ export default class News extends Component {
       loading: false,
       category: this.props.category,
     });
+    // console.log(this)
+    document.title = Boolean(this.props.category)?`${this.capitalizer(this.props.category)} - NewsMonkey`:this.state.title
   }
   previousClick = async () => {
     let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${
