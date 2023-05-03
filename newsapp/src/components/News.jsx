@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import NewsComponent from "./NewsComponent";
 import Loading from "./Loading";
 import PropTypes from "prop-types";
@@ -12,7 +13,8 @@ export default class News extends Component {
       pageno: 1,
       pageSize: 20,
       category: "",
-      title:"News Monkey - Latest News"
+      title: "News Monkey - Latest News",
+      totalResults: 100,
     };
   }
   static defaultProps = {
@@ -23,8 +25,8 @@ export default class News extends Component {
     country: PropTypes.string.isRequired,
     // pageSize: PropTypes.number.isRequired,
   };
-  capitalizer(string){
-    return string.charAt(0).toUpperCase() + string.slice(1)
+  capitalizer(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
   getData = async (url) => {
     let data = await fetch(url).then((value) => value.json());
@@ -44,47 +46,65 @@ export default class News extends Component {
     let data = await getData(url);
     this.setState({
       articles: data.articles,
-      totalResults: 100,
       loading: false,
       category: this.props.category,
     });
     // console.log(this)
-    document.title = Boolean(this.props.category)?`${this.capitalizer(this.props.category)} - NewsMonkey`:this.state.title
+    document.title = Boolean(this.props.category)
+      ? `${this.capitalizer(this.props.category)} - NewsMonkey`
+      : this.state.title;
   }
-  previousClick = async () => {
+  // previousClick = async () => {
+  //   let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${
+  //     this.state.pageno - 1
+  //   }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
+  //   this.setState({ loading: true });
+  //   let data = await this.getData(url);
+
+  //   this.setState({
+  //     pageno: this.state.pageno - 1,
+  //     articles: data.articles,
+  //     loading: false,
+  //   });
+  //   document
+  //     .getElementsByClassName("container")[1]
+  //     .scrollIntoView({ behavior: "smooth" });
+  // };
+  // nextClick = async () => {
+  //   if (this.state.pageno + 1 > this.state.totalResults / this.state.pageSize) {
+  //   } else {
+  //     this.setState({ loading: true });
+
+  //     let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${
+  //       this.state.pageno + 1
+  //     }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
+  //     let data = await this.getData(url);
+  //     this.setState({
+  //       pageno: this.state.pageno + 1,
+  //       articles: data.articles,
+  //       loading: false,
+  //     });
+  //     document
+  //       .getElementsByClassName("container")[1]
+  //       .scrollIntoView({ behavior: "smooth" });
+  //   }
+  // };
+  fetchData = async () => {
+    console.log(this.state);
+    // // this.setState({ pageno: this.state.pageno + 1 });
     let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${
-      this.state.pageno - 1
+      this.state.pageno + 1
     }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
-    this.setState({ loading: true });
     let data = await this.getData(url);
-
-    this.setState({
-      pageno: this.state.pageno - 1,
-      articles: data.articles,
-      loading: false,
+    console.log(data
+      );
+    let temparr = this.state.articles.concat(data.articles);
+    console.log(temparr);
+    await this.setState({
+      articles: temparr,
+      pageno: this.state.pageno + 1,
     });
-    document
-      .getElementsByClassName("container")[1]
-      .scrollIntoView({ behavior: "smooth" });
-  };
-  nextClick = async () => {
-    if (this.state.pageno + 1 > this.state.totalResults / this.state.pageSize) {
-    } else {
-      this.setState({ loading: true });
-
-      let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${
-        this.state.pageno + 1
-      }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
-      let data = await this.getData(url);
-      this.setState({
-        pageno: this.state.pageno + 1,
-        articles: data.articles,
-        loading: false,
-      });
-      document
-        .getElementsByClassName("container")[1]
-        .scrollIntoView({ behavior: "smooth" });
-    }
+    console.log(this.state);
   };
   async hanglePageSize(event) {
     let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${this.state.pageno}&pageSize=${event.target.value}&category=${this.props.category}`;
@@ -97,14 +117,14 @@ export default class News extends Component {
   render() {
     return (
       <>
-        <div className="container p -12 mx-auto">
+        <div className="container flex flex-col items-center p-12 mx-auto">
           <div className="sm:text-3xl text-2xl font-medium title-font text-center text-gray-900 mb-16">
             News Monkey - Get your daily dose of news daily
           </div>
-          <div className="mx-4 inline-block relative w-64">
+          <div className="md:mx-4 inline-block relative w-64 px-auto md:self-start">
             <select
               onChange={(event) => this.hanglePageSize(event)}
-              className="block appearance-none w-full bg-black border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              className="block appearance-none w-full dark:bg-black border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline "
             >
               <option disabled selected hidden>
                 Select Page Size
@@ -124,11 +144,19 @@ export default class News extends Component {
               </svg>
             </div>
           </div>
-          <div className="component grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center grid-cols-1 gap-5 py-5">
-            {Boolean(this.state.loading) ? (
+          <div /* className="component grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center grid-cols-1 gap-5 py-5" */
+          >
+            {/* {Boolean(this.state.loading) ? (
               <Loading />
-            ) : (
-              this.state.articles.map((item) => {
+            ) : ( */}
+            <InfiniteScroll
+              className="component grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center grid-cols-1 gap-5 py-5"
+              dataLength={this.state.totalResults}
+              next={this.fetchData}
+              hasMore={this.state.articles.length !== this.state.totalResults}
+              loader={<Loading />}
+            >
+              {this.state.articles.map((item) => {
                 return (
                   <NewsComponent
                     key={item.url}
@@ -143,10 +171,10 @@ export default class News extends Component {
                     source={item.source.name}
                   />
                 );
-              })
-            )}
+              })}
+            </InfiniteScroll>
           </div>
-          <div className="pagination mx-4 flex justify-between">
+          <div className="pagination w-full px-4 flex justify-between">
             <button
               disabled={this.state.pageno <= 1}
               onClick={this.previousClick}
