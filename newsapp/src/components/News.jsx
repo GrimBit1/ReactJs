@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NewsComponent from "./NewsComponent";
 import Loading from "./Loading";
 import PropTypes from "prop-types";
+import InfiniteScroll from "react-infinite-scroll-component";
 // import myarticles from "../data/sampledata.json";
 export default class News extends Component {
   constructor() {
@@ -9,10 +10,13 @@ export default class News extends Component {
     this.state = {
       articles: [],
       loading: false,
+      totalResults: 100,
       pageno: 1,
       pageSize: 20,
       category: "",
-      title:"News Monkey - Latest News"
+      title: "News Monkey - Latest News",
+      items: [],
+      apiKey: "26a405f4b44f40a194da56cb52918291",
     };
   }
   static defaultProps = {
@@ -23,8 +27,8 @@ export default class News extends Component {
     country: PropTypes.string.isRequired,
     // pageSize: PropTypes.number.isRequired,
   };
-  capitalizer(string){
-    return string.charAt(0).toUpperCase() + string.slice(1)
+  capitalizer(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
   getData = async (url) => {
     let data = await fetch(url).then((value) => value.json());
@@ -39,22 +43,26 @@ export default class News extends Component {
       let data = await fetch(url).then((value) => value.json());
       return data;
     };
-    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${this.state.pageno}&pageSize=${this.state.pageSize}&category=${this.props.category}`;
+    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.state.apiKey}&page=${this.state.pageno}&pageSize=${this.state.pageSize}&category=${this.props.category}`;
     // console.log(url);
     let data = await getData(url);
     this.setState({
       articles: data.articles,
-      totalResults: 100,
+
       loading: false,
       category: this.props.category,
     });
     // console.log(this)
-    document.title = Boolean(this.props.category)?`${this.capitalizer(this.props.category)} - NewsMonkey`:this.state.title
+    document.title = Boolean(this.props.category)
+      ? `${this.capitalizer(this.props.category)} - NewsMonkey`
+      : this.state.title;
   }
   previousClick = async () => {
-    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${
-      this.state.pageno - 1
-    }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
+    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${
+      this.state.apiKey
+    }&page=${this.state.pageno - 1}&pageSize=${this.state.pageSize}&category=${
+      this.props.category
+    }`;
     this.setState({ loading: true });
     let data = await this.getData(url);
 
@@ -72,9 +80,11 @@ export default class News extends Component {
     } else {
       this.setState({ loading: true });
 
-      let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${
-        this.state.pageno + 1
-      }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
+      let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${
+        this.state.apiKey
+      }&page=${this.state.pageno + 1}&pageSize=${
+        this.state.pageSize
+      }&category=${this.props.category}`;
       let data = await this.getData(url);
       this.setState({
         pageno: this.state.pageno + 1,
@@ -86,8 +96,34 @@ export default class News extends Component {
         .scrollIntoView({ behavior: "smooth" });
     }
   };
+  fetchMoreData = async () => {
+    console.log(this);
+    console.log(
+      this.state.pageno + 1 > this.state.totalResults / this.state.pageSize
+    );
+    // a fake async api call like which sends
+    // 20 more records in 1.5 secs
+    if (this.state.pageno + 1 > this.state.totalResults / this.state.pageSize) {
+    } else {
+      this.setState({ loading: true });
+
+      let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${
+        this.state.apiKey
+      }&page=${this.state.pageno + 1}&pageSize=${
+        this.state.pageSize
+      }&category=${this.props.category}`;
+      let data = await this.getData(url);
+
+      this.setState({
+        pageno: this.state.pageno + 1,
+        articles: this.state.articles.concat(data.articles),
+        loading: false,
+      });
+    }
+    console.log(this.state.articles);
+  };
   async hanglePageSize(event) {
-    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=7e8fa036e129458cb56025ed2a0b25a4&page=${this.state.pageno}&pageSize=${event.target.value}&category=${this.props.category}`;
+    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.state.apiKey}&page=${this.state.pageno}&pageSize=${event.target.value}&category=${this.props.category}`;
     let data = await this.getData(url);
     this.setState({
       pageSize: parseInt(event.target.value),
@@ -124,28 +160,35 @@ export default class News extends Component {
               </svg>
             </div>
           </div>
-          <div className="component grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center grid-cols-1 gap-5 py-5">
-            {Boolean(this.state.loading) ? (
-              <Loading />
-            ) : (
-              this.state.articles.map((item) => {
-                return (
-                  <NewsComponent
-                    key={item.url}
-                    title={item.title}
-                    description={item.description}
-                    img={
-                      Boolean(item.urlToImage)
-                        ? item.urlToImage
-                        : "https://images.unsplash.com/photo-1476242906366-d8eb64c2f661?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80"
-                    }
-                    url={item.url}
-                    source={item.source.name}
-                  />
-                );
-              })
-            )}
-          </div>
+          <InfiniteScroll
+            className="component grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center grid-cols-1 gap-5 py-5"
+            dataLength={this.state.totalResults}
+            next={this.fetchMoreData}
+            hasMore={true}
+            loader={<Loading />}
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            } 
+          >
+            {this.state.articles.map((item) => {
+              return (
+                <NewsComponent
+                  key={item.url}
+                  title={item.title}
+                  description={item.description}
+                  img={
+                    Boolean(item.urlToImage)
+                      ? item.urlToImage
+                      : "https://images.unsplash.com/photo-1476242906366-d8eb64c2f661?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80"
+                  }
+                  url={item.url}
+                  source={item.source.name}
+                />
+              );
+            })}
+          </InfiniteScroll>
           <div className="pagination mx-4 flex justify-between">
             <button
               disabled={this.state.pageno <= 1}
