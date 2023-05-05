@@ -46,9 +46,12 @@ export default class News extends Component {
     let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.state.apiKey}&page=${this.state.pageno}&pageSize=${this.state.pageSize}&category=${this.props.category}`;
     // console.log(url);
     let data = await getData(url);
+    let tempurl = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.state.apiKey}&pageSize=${this.state.totalResults}&category=${this.props.category}`;
+    let tempdata = await getData(tempurl);
+
     this.setState({
       articles: data.articles,
-
+      items: tempdata.articles,
       loading: false,
       category: this.props.category,
     });
@@ -105,6 +108,7 @@ export default class News extends Component {
     // 20 more records in 1.5 secs
     if (this.state.pageno + 1 > this.state.totalResults / this.state.pageSize) {
     } else {
+      console.log("In the condition");
       this.setState({ loading: true });
 
       let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${
@@ -130,6 +134,10 @@ export default class News extends Component {
       articles: data.articles,
     });
   }
+  giveThis = () => {
+    console.log(this);
+    console.log(!(this.state.articles.length >= this.state.items.length));
+  };
   render() {
     return (
       <>
@@ -160,17 +168,24 @@ export default class News extends Component {
               </svg>
             </div>
           </div>
+          <button onClick={this.giveThis}>Hi</button>
           <InfiniteScroll
             className="component grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center grid-cols-1 gap-5 py-5"
-            dataLength={this.state.totalResults}
+            dataLength={this.state.pageno * 20}
             next={this.fetchMoreData}
-            hasMore={true}
+            hasMore={!(this.state.articles.length >= this.state.items.length)}
             loader={<Loading />}
+            scrollableTarget="component"
             endMessage={
-              <p style={{ textAlign: "center" }}>
+              <p
+                className="block col-span-full"
+                style={{
+                  textAlign: "center",
+                }}
+              >
                 <b>Yay! You have seen it all</b>
               </p>
-            } 
+            }
           >
             {this.state.articles.map((item) => {
               return (
@@ -189,7 +204,7 @@ export default class News extends Component {
               );
             })}
           </InfiniteScroll>
-          <div className="pagination mx-4 flex justify-between">
+          {/* <div className="pagination mx-4 flex justify-between">
             <button
               disabled={this.state.pageno <= 1}
               onClick={this.previousClick}
@@ -210,7 +225,7 @@ export default class News extends Component {
             >
               Next &rarr;
             </button>
-          </div>
+          </div> */}
         </div>
       </>
     );
