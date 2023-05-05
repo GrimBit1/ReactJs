@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import NewsComponent from "./NewsComponent";
 import Loading from "./Loading";
 import PropTypes from "prop-types";
@@ -15,8 +16,10 @@ export default class News extends Component {
       pageSize: 20,
       category: "",
       title: "News Monkey - Latest News",
+
       items: [],
       apiKey: "26a405f4b44f40a194da56cb52918291",
+
     };
   }
   static defaultProps = {
@@ -51,7 +54,9 @@ export default class News extends Component {
 
     this.setState({
       articles: data.articles,
+
       items: tempdata.articles,
+
       loading: false,
       category: this.props.category,
     });
@@ -60,6 +65,7 @@ export default class News extends Component {
       ? `${this.capitalizer(this.props.category)} - NewsMonkey`
       : this.state.title;
   }
+
   previousClick = async () => {
     let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${
       this.state.apiKey
@@ -67,13 +73,17 @@ export default class News extends Component {
       this.props.category
     }`;
     this.setState({ loading: true });
-    let data = await this.getData(url);
 
-    this.setState({
-      pageno: this.state.pageno - 1,
-      articles: data.articles,
-      loading: false,
+    let data = await this.getData(url);
+    console.log(data
+      );
+    let temparr = this.state.articles.concat(data.articles);
+    console.log(temparr);
+    await this.setState({
+      articles: temparr,
+      pageno: this.state.pageno + 1,
     });
+
     document
       .getElementsByClassName("container")[1]
       .scrollIntoView({ behavior: "smooth" });
@@ -98,6 +108,7 @@ export default class News extends Component {
         .getElementsByClassName("container")[1]
         .scrollIntoView({ behavior: "smooth" });
     }
+
   };
   fetchMoreData = async () => {
     // console.log(this);
@@ -141,14 +152,14 @@ export default class News extends Component {
   render() {
     return (
       <>
-        <div className="container p -12 mx-auto">
+        <div className="container flex flex-col items-center p-12 mx-auto">
           <div className="sm:text-3xl text-2xl font-medium title-font text-center text-gray-900 mb-16">
             News Monkey - Get your daily dose of news daily
           </div>
-          <div className="mx-4 inline-block relative w-64">
+          <div className="md:mx-4 inline-block relative w-64 px-auto md:self-start">
             <select
               onChange={(event) => this.hanglePageSize(event)}
-              className="block appearance-none w-full bg-black border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              className="block appearance-none w-full dark:bg-black border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline "
             >
               <option disabled selected hidden>
                 Select Page Size
@@ -168,6 +179,7 @@ export default class News extends Component {
               </svg>
             </div>
           </div>
+
           {/* <button onClick={this.giveThis}>Hi</button> */}
           <InfiniteScroll
             className="component grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center grid-cols-1 gap-5 py-5"
@@ -205,6 +217,7 @@ export default class News extends Component {
             })}
           </InfiniteScroll>
           {/* <div className="pagination mx-4 flex justify-between">
+
             <button
               disabled={this.state.pageno <= 1}
               onClick={this.previousClick}
