@@ -58,7 +58,7 @@ export default class News extends Component {
       }
       // console.log('Hi');
       this.i++;
-      if (this.i > 4) {
+      if (this.i > 6) {
         break;
       }
     }
@@ -70,7 +70,6 @@ export default class News extends Component {
   };
 
   async componentDidMount() {
-    console.log(process.env.REACT_APP_message);
     let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.apiKey}&page=${this.state.pageno}&pageSize=${this.state.pageSize}&category=${this.props.category}`;
 
     let data = await this.getData(url);
