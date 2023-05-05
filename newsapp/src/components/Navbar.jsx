@@ -7,7 +7,7 @@ export default class Navbar extends Component {
   render() {
     return (
       <>
-        <header className="text-gray-600 body-font">
+        <header className="text-gray-600 body-font fixed w-full z-10 top-0 bg-white dark:bg-black shadow-sm dark:shadow-slate-600">
           <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
             <Link
               to="/"

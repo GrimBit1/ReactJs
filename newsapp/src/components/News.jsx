@@ -176,7 +176,7 @@ export default class News extends Component {
   render() {
     return (
       <>
-        <div className="container p -12 mx-auto">
+        <div className="container p -12 mx-auto my-32">
           <div className="sm:text-3xl text-2xl font-medium title-font text-center text-gray-900 mb-16">
             News Monkey - Get your daily dose of news daily
           </div>
