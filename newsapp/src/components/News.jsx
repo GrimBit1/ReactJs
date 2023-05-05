@@ -1,4 +1,4 @@
-import  { Component } from "react";
+import { Component } from "react";
 
 import NewsComponent from "./NewsComponent";
 
@@ -58,6 +58,11 @@ export default class News extends Component {
         if (response.ok) {
           break;
         }
+      }
+      // console.log('Hi');
+      this.i++;
+      if (this.i >4) {
+        break;
       }
     }
     if (response.ok) {
