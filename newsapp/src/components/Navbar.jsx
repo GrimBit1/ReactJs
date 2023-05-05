@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CountryList from "./CountryList";
 import Categories from "./Categories";
-import { BrowserRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class Navbar extends Component {
   render() {
@@ -40,7 +40,6 @@ export default class Navbar extends Component {
                 <CountryList id="country" className="hidden" />
               </div>
 
-              
               <Categories />
             </nav>
             <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1.5 px-3 border border-blue-500 hover:border-transparent rounded">
