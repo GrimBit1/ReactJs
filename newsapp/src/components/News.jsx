@@ -100,15 +100,15 @@ export default class News extends Component {
     }
   };
   fetchMoreData = async () => {
-    console.log(this);
-    console.log(
-      this.state.pageno + 1 > this.state.totalResults / this.state.pageSize
-    );
+    // console.log(this);
+    // console.log(
+    //   this.state.pageno + 1 > this.state.totalResults / this.state.pageSize
+    // );
     // a fake async api call like which sends
     // 20 more records in 1.5 secs
     if (this.state.pageno + 1 > this.state.totalResults / this.state.pageSize) {
     } else {
-      console.log("In the condition");
+      // console.log("In the condition");
       this.setState({ loading: true });
 
       let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${
@@ -124,7 +124,7 @@ export default class News extends Component {
         loading: false,
       });
     }
-    console.log(this.state.articles);
+    // console.log(this.state.articles);
   };
   async hanglePageSize(event) {
     let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.state.apiKey}&page=${this.state.pageno}&pageSize=${event.target.value}&category=${this.props.category}`;
@@ -168,7 +168,7 @@ export default class News extends Component {
               </svg>
             </div>
           </div>
-          <button onClick={this.giveThis}>Hi</button>
+          {/* <button onClick={this.giveThis}>Hi</button> */}
           <InfiniteScroll
             className="component grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 justify-items-center grid-cols-1 gap-5 py-5"
             dataLength={this.state.pageno * 20}
