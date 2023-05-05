@@ -9,14 +9,11 @@ import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export default class News extends Component {
-  i = 0;
+  i = 1;
 
-  apiKeyarr = [
-    "26a405f4b44f40a194da56cb52918291",
-    "d68e5d2dcf4746b5b2ddd3ae0c69c28a",
-  ];
+  apiKeyarr = JSON.parse(process.env.REACT_APP_NEWS_API_ARR);
 
-  apiKey = "7e8fa036e129458cb56025ed2a0b25a4";
+  apiKey = this.apiKeyarr[0];
 
   constructor() {
     super();
@@ -61,7 +58,7 @@ export default class News extends Component {
       }
       // console.log('Hi');
       this.i++;
-      if (this.i >4) {
+      if (this.i > 4) {
         break;
       }
     }
@@ -73,6 +70,7 @@ export default class News extends Component {
   };
 
   async componentDidMount() {
+    console.log(process.env.REACT_APP_message);
     let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.apiKey}&page=${this.state.pageno}&pageSize=${this.state.pageSize}&category=${this.props.category}`;
 
     let data = await this.getData(url);
