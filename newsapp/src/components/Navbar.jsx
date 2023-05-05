@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import CountryList from "./CountryList";
 import Categories from "./Categories";
 import { Link } from "react-router-dom";
@@ -35,7 +35,7 @@ export default class Navbar extends Component {
                   // id="country"
                   list="country"
                   placeholder="Select Country"
-                  className="block text-white appearance-none w-full bg-black border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                  className="block text-white appearance-none w-full dark:bg-black border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 />
                 <CountryList id="country" className="hidden" />
               </div>

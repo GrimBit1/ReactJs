@@ -10,13 +10,22 @@ import {
 import Navbar from "./components/Navbar";
 import News from "./components/News";
 
+
 export default class App extends Component {
+  state = {
+    progress: 0
+  }
+  setProgress(progress) {
+    this.setState({ progress: progress })
+  }
+  // const[progress, setProgress] = useState(0);
   render() {
     return (<>
 
       <BrowserRouter>
-      <Navbar />
+        <Navbar />
         <Routes>
+
           <Route path="business" element={<News key="business" category="business" />} />
           <Route path="entertainment" element={<News key="entertainment" category="entertainment" />} />
           <Route path="general" element={<News key="general" category="general" />} />
