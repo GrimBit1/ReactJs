@@ -128,7 +128,7 @@ export default class News extends Component {
   render() {
     return (
       <>
-        <div className="container p -12 mx-auto my-32 flex flex-col md:items-start items-center">
+        <div className="container p -12 mx-auto my-32 flex flex-col items-center">
           <button
             className={`${this.state.scrollY > 150
                 ? ""
