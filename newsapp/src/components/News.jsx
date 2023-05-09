@@ -9,12 +9,6 @@ import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 export default class News extends Component {
-  i = 1;
-
-  apiKeyarr = JSON.parse(process.env.REACT_APP_NEWS_API_ARR);
-
-  apiKey = this.apiKeyarr[0];
-
   constructor() {
     super();
 
@@ -27,6 +21,7 @@ export default class News extends Component {
       category: "",
       title: "News Monkey - Latest News",
       items: [],
+      scrollY: 0,
     };
   }
   static defaultProps = {
@@ -44,37 +39,21 @@ export default class News extends Component {
   getData = async (url) => {
     let response = await fetch(url);
 
-    while (!response.ok) {
-      for (const key of this.apiKeyarr) {
-        this.apiKey = key;
+    let data = await response.json();
 
-        url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.apiKey}&page=1&pageSize=20&category=${this.props.category}`;
-
-        response = await fetch(url);
-
-        if (response.ok) {
-          break;
-        }
-      }
-      // console.log('Hi');
-      this.i++;
-      if (this.i > 6) {
-        break;
-      }
-    }
-    if (response.ok) {
-      let data = response.json();
-
-      return data;
-    }
+    return data;
   };
 
   async componentDidMount() {
-    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.apiKey}&page=${this.state.pageno}&pageSize=${this.state.pageSize}&category=${this.props.category}`;
+    window.addEventListener("scroll", () => {
+      this.setState({ scrollY: window.scrollY });
+    });
+
+    let url = `https://techblogs.codes/top-headlines?page=${this.state.pageno}&pageSize=${this.state.pageSize}&category=${this.props.category}`;
 
     let data = await this.getData(url);
 
-    let tempurl = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.apiKey}&pageSize=${this.state.totalResults}&category=${this.props.category}`;
+    let tempurl = `https://techblogs.codes/top-headlines?pageSize=${this.state.totalResults}&category=${this.props.category}`;
 
     let tempdata = await this.getData(tempurl);
 
@@ -90,11 +69,8 @@ export default class News extends Component {
       : this.state.title;
   }
   previousClick = async () => {
-    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${
-      this.apiKey
-    }&page=${this.state.pageno - 1}&pageSize=${this.state.pageSize}&category=${
-      this.props.category
-    }`;
+    let url = `https://techblogs.codes/top-headlines?page=${this.state.pageno - 1
+      }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
 
     this.setState({ loading: true });
 
@@ -111,41 +87,13 @@ export default class News extends Component {
       .scrollIntoView({ behavior: "smooth" });
   };
 
-  nextClick = async () => {
-    if (this.state.pageno + 1 > this.state.totalResults / this.state.pageSize) {
-    } else {
-      this.setState({ loading: true });
-
-      let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${
-        this.apiKey
-      }&page=${this.state.pageno + 1}&pageSize=${
-        this.state.pageSize
-      }&category=${this.props.category}`;
-
-      let data = await this.getData(url);
-
-      this.setState({
-        pageno: this.state.pageno + 1,
-        articles: data.articles,
-        loading: false,
-      });
-
-      document
-        .getElementsByClassName("container")[1]
-        .scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   fetchMoreData = async () => {
     if (this.state.pageno + 1 > this.state.totalResults / this.state.pageSize) {
     } else {
       this.setState({ loading: true });
 
-      let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${
-        this.apiKey
-      }&page=${this.state.pageno + 1}&pageSize=${
-        this.state.pageSize
-      }&category=${this.props.category}`;
+      let url = `https://techblogs.codes/top-headlines?page=${this.state.pageno + 1
+        }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
 
       let data = await this.getData(url);
 
@@ -158,7 +106,7 @@ export default class News extends Component {
   };
 
   async hanglePageSize(event) {
-    let url = `https://newsapi.org/v2/top-headlines?language=en&apiKey=${this.apiKey}&page=${this.state.pageno}&pageSize=${event.target.value}&category=${this.props.category}`;
+    let url = `https://techblogs.codes/top-headlines?page=${this.state.pageno}&pageSize=${event.target.value}&category=${this.props.category}`;
 
     let data = await this.getData(url);
 
@@ -172,11 +120,27 @@ export default class News extends Component {
 
     console.log(this.apiKeyarr);
   };
-
+  scrollToTop = () => {
+    document
+      .getElementsByClassName("container")[0]
+      .scrollIntoView({ behavior: "smooth" });
+  };
   render() {
     return (
       <>
-        <div className="container p -12 mx-auto my-32">
+        <div className="container p -12 mx-auto my-32 flex flex-col md:items-start items-center">
+          <button
+            className={`${this.state.scrollY > 150
+                ? ""
+                : "invisible translate-y-6 transition-all"
+              } fixed bg-black rounded-full h-12 w-12 bottom-5 right-5 z-50`}
+            onClick={this.scrollToTop}
+          >
+            <i
+              className="fa-solid fa-arrow-up"
+              style={{ color: "#ffffff" }}
+            ></i>
+          </button>
           <div className="sm:text-3xl text-2xl font-medium title-font text-center text-gray-900 mb-16">
             News Monkey - Get your daily dose of news daily
           </div>

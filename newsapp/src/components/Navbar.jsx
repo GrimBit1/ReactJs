@@ -7,7 +7,7 @@ export default class Navbar extends Component {
   render() {
     return (
       <>
-        <header className="text-gray-600 body-font fixed w-full z-10 top-0 bg-white dark:bg-black shadow-sm dark:shadow-slate-600">
+        <header className="text-gray-600 body-font w-full z-10 top-0 bg-white dark:bg-black shadow-sm dark:shadow-slate-600">
           <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
             <Link
               to="/"
@@ -28,7 +28,7 @@ export default class Navbar extends Component {
               <span className="ml-3 text-xl">News App</span>
             </Link>
             <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-              <div className="mx-6 inline-block relative w-64">
+              {/* <div className="mx-6 inline-block relative w-64">
                 <input
                   // onChange={(event) => this.hanglePageSize(event)}
                   type="text"
@@ -38,13 +38,11 @@ export default class Navbar extends Component {
                   className="block text-white appearance-none w-full dark:bg-black border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 />
                 <CountryList id="country" className="hidden" />
-              </div>
+              </div> */}
 
               <Categories />
             </nav>
-            <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1.5 px-3 border border-blue-500 hover:border-transparent rounded">
-              Button
-            </button>
+            
           </div>
         </header>
       </>
