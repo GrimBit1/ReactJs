@@ -69,8 +69,9 @@ export default class News extends Component {
       : this.state.title;
   }
   previousClick = async () => {
-    let url = `https://techblogs.codes/top-headlines?page=${this.state.pageno - 1
-      }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
+    let url = `https://techblogs.codes/top-headlines?page=${
+      this.state.pageno - 1
+    }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
 
     this.setState({ loading: true });
 
@@ -92,8 +93,9 @@ export default class News extends Component {
     } else {
       this.setState({ loading: true });
 
-      let url = `https://techblogs.codes/top-headlines?page=${this.state.pageno + 1
-        }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
+      let url = `https://techblogs.codes/top-headlines?page=${
+        this.state.pageno + 1
+      }&pageSize=${this.state.pageSize}&category=${this.props.category}`;
 
       let data = await this.getData(url);
 
@@ -125,15 +127,17 @@ export default class News extends Component {
       .getElementsByClassName("container")[0]
       .scrollIntoView({ behavior: "smooth" });
   };
+
   render() {
     return (
       <>
         <div className="container p -12 mx-auto my-32 flex flex-col items-center">
           <button
-            className={`${this.state.scrollY > 150
+            className={`${
+              this.state.scrollY > 150
                 ? ""
                 : "invisible translate-y-6 transition-all"
-              } fixed bg-black rounded-full h-12 w-12 bottom-5 right-5 z-50`}
+            } fixed bg-black rounded-full h-12 w-12 bottom-5 right-5 z-50`}
             onClick={this.scrollToTop}
           >
             <i
@@ -191,11 +195,12 @@ export default class News extends Component {
                 <NewsComponent
                   key={item.url}
                   title={item.title}
-                  description={item.description}
+                  description={
+                    item.description ?? "Didnt provide any description"
+                  }
                   img={
-                    Boolean(item.urlToImage)
-                      ? item.urlToImage
-                      : "https://images.unsplash.com/photo-1476242906366-d8eb64c2f661?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80"
+                    item.urlToImage ??
+                    "https://images.unsplash.com/photo-1476242906366-d8eb64c2f661?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2069&q=80"
                   }
                   url={item.url}
                   source={item.source.name}
