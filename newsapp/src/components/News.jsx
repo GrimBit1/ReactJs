@@ -67,6 +67,7 @@ export default class News extends Component {
     document.title = Boolean(this.props.category)
       ? `${this.capitalizer(this.props.category)} - NewsMonkey`
       : this.state.title;
+    
   }
   previousClick = async () => {
     let url = `https://techblogs.codes/top-headlines?page=${

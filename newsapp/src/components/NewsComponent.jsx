@@ -67,6 +67,7 @@ export class NewsComponent extends Component {
                 </a>
               </div>
             </div>
+            <div className="ad"></div>
           </div>
         ) : (
           <Loading />

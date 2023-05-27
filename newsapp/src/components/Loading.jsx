@@ -5,7 +5,7 @@ export default class Loading extends Component {
     return (
       <div
         role="status"
-        className="  border border-gray-200 shadow animate-pulse  dark:border-gray-700 newsblock mx-4 relative h-[495px] newsblock w-full rounded   "
+        className="  border border-gray-200 shadow animate-pulse  dark:border-gray-700 newsblock mx-4 relative h-[495px] newsblock w-[320px] rounded   "
       >
         <div className="flex items-center justify-center   bg-gray-300 rounded dark:bg-gray-700 w-full h-[40%]">
           <svg
